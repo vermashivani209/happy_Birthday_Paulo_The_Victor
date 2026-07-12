@@ -59,7 +59,8 @@ img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #111;
 }
 
 button {
@@ -438,31 +439,6 @@ section {
 
 .gallery-top { text-align: center; margin-bottom: 3rem; }
 
-.upload-zone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-}
-
-.upload-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  padding: .75rem 1.6rem;
-  border-radius: 100px;
-  border: 1.5px dashed rgba(212,168,75,.4);
-  color: var(--gold-lt);
-  font-size: .82rem;
-  letter-spacing: .1em;
-  cursor: pointer;
-  transition: border-color .3s, background .3s;
-}
-.upload-btn:hover { border-color: var(--h-gold); background: rgba(212,168,75,.08); }
-#gallery-file-input { display: none; }
-
 .photo-grid {
   display: grid;
   grid-template-columns: repeat(3,1fr);
@@ -515,7 +491,8 @@ section {
 .ph-slot img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #111;
   transition: transform .6s ease;
 }
 .ph-slot:hover img { transform: scale(1.06); }
@@ -782,28 +759,15 @@ section {
 }
 .mem-card h3 { color: var(--gold-lt); font-size: 1rem; margin-bottom: .6rem; }
 
-.mem-upload {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  border-radius: 10px;
-  border: 1.5px dashed rgba(255,255,255,.12);
-  cursor: pointer;
-  margin-top: .8rem;
-  transition: border-color .3s, background .3s;
-}
-.mem-upload:hover { border-color: var(--h-gold); background: rgba(212,168,75,.05); }
-.mem-upload input { display: none; }
-.mem-upload span { font-size: .76rem; color: var(--text-dim); letter-spacing: .12em; }
-
 .mem-img-preview {
   width: 100%;
   border-radius: 10px;
   margin-top: .8rem;
   max-height: 180px;
   object-fit: cover;
-  display: none;
+  object-fit: contain;
+  background: #111;
+  display: block;
 }
 
 .audio-bar {
@@ -814,14 +778,6 @@ section {
   border-radius: 100px;
   padding: .6rem 1.2rem;
   margin-top: .8rem;
-}
-.audio-bar input[type=file] { display: none; }
-.audio-bar label {
-  font-size: .76rem;
-  color: var(--gold-lt);
-  cursor: pointer;
-  letter-spacing: .08em;
-  white-space: nowrap;
 }
 .audio-bar audio {
   flex: 1;
@@ -1232,19 +1188,6 @@ section {
   text-transform: uppercase; color: var(--text-dim);
 }
 
-/* ── LETTER AUDIO ── */
-.letter-audio-wrap {
-  text-align: center; margin-top: 2rem;
-  opacity: 0; pointer-events: none;
-  transition: opacity .8s .3s;
-}
-.letter-audio-wrap.show { opacity: 1; pointer-events: all; }
-.letter-audio-label {
-  font-size: .72rem; letter-spacing: .2em;
-  text-transform: uppercase; color: var(--text-dim);
-  margin-bottom: .8rem;
-}
-
 /* ── CUT CAKE BUTTON ── */
 .cut-cake-btn {
   display: none;
@@ -1271,7 +1214,20 @@ section {
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at 50% 28%, rgba(30,4,16,.55) 0%, rgba(5,0,10,.8) 55%, rgba(5,0,10,.92) 100%);
+  background:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.9) 50%, transparent 100%),
+    radial-gradient(1px 1px at 24% 62%, rgba(255,255,255,.7) 50%, transparent 100%),
+    radial-gradient(2px 2px at 38% 30%, rgba(255,255,255,.85) 50%, transparent 100%),
+    radial-gradient(1px 1px at 52% 74%, rgba(255,255,255,.6) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 66% 22%, rgba(255,255,255,.8) 50%, transparent 100%),
+    radial-gradient(1px 1px at 78% 58%, rgba(255,255,255,.65) 50%, transparent 100%),
+    radial-gradient(2px 2px at 88% 34%, rgba(255,255,255,.9) 50%, transparent 100%),
+    radial-gradient(1px 1px at 8% 82%, rgba(255,255,255,.55) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 92% 78%, rgba(255,255,255,.75) 50%, transparent 100%),
+    radial-gradient(1px 1px at 44% 90%, rgba(255,255,255,.5) 50%, transparent 100%),
+    radial-gradient(ellipse at 50% 25%, rgba(88,64,150,.35) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 28%, rgba(20,26,60,.55) 0%, rgba(6,9,32,.88) 55%, rgba(3,5,20,.97) 100%);
+  background-color: #05071c;
   transition: opacity .6s ease;
   cursor: pointer;
 }
@@ -1316,8 +1272,8 @@ section {
   position: absolute;
   top: 100%;
   left: 50%;
-  width: clamp(64px, 13vw, 118px);
-  height: clamp(64px, 13vw, 118px);
+  width: clamp(192px, 39vw, 354px);
+  height: clamp(192px, 39vw, 354px);
   opacity: 0;
   transform: translate(-50%, -6%) scale(.15);
   filter: drop-shadow(0 10px 20px rgba(0,0,0,.6));
@@ -1352,16 +1308,20 @@ section {
 .spider-bubble {
   position: absolute;
   left: 50%;
-  top: calc(var(--drop-h, 44vh) + 30px);
-  max-width: min(78vw, 300px);
-  background: rgba(255,251,246,.97);
+  top: calc(var(--drop-h, 44vh) + 65px);
+  max-width: min(84vw, 420px);
+  background: linear-gradient(160deg, rgba(255,251,246,.98), rgba(255,244,228,.96));
   color: #3a1030;
-  padding: .8rem 1.15rem;
-  border-radius: 16px;
-  font-size: .88rem;
-  line-height: 1.5;
+  padding: 1.3rem 1.7rem;
+  border-radius: 20px;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  line-height: 1.55;
+  letter-spacing: .01em;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0,0,0,.5);
+  box-shadow: 0 25px 60px rgba(0,0,0,.55), 0 0 40px rgba(212,168,75,.25);
+  border: 1px solid rgba(212,168,75,.4);
   opacity: 0;
   transform: translate(-50%, 10px) scale(.9);
   transition: opacity .5s ease, transform .5s ease;
@@ -1851,9 +1811,9 @@ img, svg, canvas, video { max-width: 100%; }
 <!-- Scroll progress bar -->
 <div id="spb"></div>
 
-<!-- Optional background audio — set src="your-song.mp3" to enable -->
+<!-- Background music -->
 <audio id="bg-audio" loop="">
-  <source src="audio.mp3" type="audio/mpeg">
+  <source src="background_music.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
 </audio>
 
@@ -1893,7 +1853,7 @@ img, svg, canvas, video { max-width: 100%; }
     <!-- EDIT: Replace with the birthday date -->
     <p class="hero-date" contenteditable="true" data-placeholder="July 15, 2026">15 July 2026</p>
     <div class="hero-btn-wrap">
-      <button class="btn-primary" onclick="document.getElementById(&#39;story&#39;).scrollIntoView({behavior:&#39;smooth&#39;})">
+      <button class="btn-primary" onclick="window.startBgMusic &amp;&amp; window.startBgMusic(); document.getElementById(&#39;story&#39;).scrollIntoView({behavior:&#39;smooth&#39;})">
         Start Our Journey &nbsp;→
       </button>
     </div>
@@ -2068,64 +2028,33 @@ And looking back now, I'm soooooooo grateful that I did. ❤️
     <span class="chip" style="transition-delay: 0.2s;">Our moments</span>
     <h2 class="sh" style="transition-delay: 0.3s;">Our Gallery</h2>
     <p class="reveal" style="color: var(--text-dim); font-style: italic; margin-top: 0.8rem; font-size: 0.92rem; transition-delay: 0.4s;">
-      Click any placeholder to upload a photo from your device
+      Tap any photo to see it larger
     </p>
-  </div>
-
-  <div class="upload-zone">
-    <label for="gallery-file-input" class="upload-btn">
-      📷 &nbsp; Add Photos
-    </label>
-    <input type="file" id="gallery-file-input" accept="image/*" multiple="">
   </div>
 
   <div class="photo-grid" id="photo-grid">
     <div class="ph-slot featured" data-index="0" style="transition-delay: 0s;">
-      <div class="ph-empty" data-slot="0">
-        <span class="ph-ico">🏞️</span>
-        <span class="ph-lbl">Featured photo<br>click to upload</span>
-      </div>
-      <button class="ph-remove" data-slot="0">✗</button>
+      <img src="photo_1.jpg" alt="Photo 1">
       <div class="ph-caption" contenteditable="true">Add a caption...</div>
     </div>
     <div class="ph-slot" data-index="1" style="transition-delay: 0.1s;">
-      <div class="ph-empty" data-slot="1">
-        <span class="ph-ico">📷</span>
-        <span class="ph-lbl">Photo 2</span>
-      </div>
-      <button class="ph-remove" data-slot="1">✗</button>
+      <img src="photo_2.jpg" alt="Photo 2">
       <div class="ph-caption" contenteditable="true">Add a caption...</div>
     </div>
     <div class="ph-slot" data-index="2" style="transition-delay: 0.2s;">
-      <div class="ph-empty" data-slot="2">
-        <span class="ph-ico">📷</span>
-        <span class="ph-lbl">Photo 3</span>
-      </div>
-      <button class="ph-remove" data-slot="2">✗</button>
+      <img src="photo_3.jpg" alt="Photo 3">
       <div class="ph-caption" contenteditable="true">Add a caption...</div>
     </div>
     <div class="ph-slot" data-index="3" style="transition-delay: 0.3s;">
-      <div class="ph-empty" data-slot="3">
-        <span class="ph-ico">📷</span>
-        <span class="ph-lbl">Photo 4</span>
-      </div>
-      <button class="ph-remove" data-slot="3">✗</button>
+      <img src="photo_4.jpg" alt="Photo 4">
       <div class="ph-caption" contenteditable="true">Add a caption...</div>
     </div>
     <div class="ph-slot" data-index="4" style="transition-delay: 0.4s;">
-      <div class="ph-empty" data-slot="4">
-        <span class="ph-ico">📷</span>
-        <span class="ph-lbl">Photo 5</span>
-      </div>
-      <button class="ph-remove" data-slot="4">✗</button>
+      <img src="photo_5.jpg" alt="Photo 5">
       <div class="ph-caption" contenteditable="true">Add a caption...</div>
     </div>
     <div class="ph-slot" data-index="5" style="transition-delay: 0.5s;">
-      <div class="ph-empty" data-slot="5">
-        <span class="ph-ico">📷</span>
-        <span class="ph-lbl">Photo 6</span>
-      </div>
-      <button class="ph-remove" data-slot="5">✗</button>
+      <img src="photo_6.jpg" alt="Photo 6">
       <div class="ph-caption" contenteditable="true">Add a caption...</div>
     </div>
   </div>
@@ -2164,13 +2093,9 @@ And looking back now, I'm soooooooo grateful that I did. ❤️
         <span contenteditable="true" class="editable">A message I saved forever</span>
       </h3>
       <p contenteditable="true" class="editable" style="font-size:.85rem;">
-        That one message you sent that made me screenshot it immediately and save it somewhere safe.
+        Here it is!!!!!!!!!!!!
       </p>
-      <label class="mem-upload">
-        <input type="file" accept="image/*" class="mem-file-inp">
-        <span>📱 Upload screenshot</span>
-      </label>
-      <img class="mem-img-preview" alt="">
+      <img class="mem-img-preview" src="screenshot_mine.jpg" alt="A message I saved forever">
     </div>
 
     <div class="mem-card" style="transition-delay: 0.1s;">
@@ -2179,7 +2104,7 @@ And looking back now, I'm soooooooo grateful that I did. ❤️
         <span contenteditable="true" class="editable">The time we couldn't stop laughing</span>
       </h3>
       <p contenteditable="true" class="editable" style="font-size:.85rem;">
-        Write about the funniest moment you've shared — the kind where you still laugh thinking about it years later.
+        There are so many moments that make me laugh that it's honestly hard to pick just one. Since we mostly chat, I can't always see whether you're laughing too, but I know one thing for sure, I laugh a lot because of our silly conversations. Even the most random and stupid chats with you somehow become my favorite moments.
       </p>
     </div>
 
@@ -2189,7 +2114,10 @@ And looking back now, I'm soooooooo grateful that I did. ❤️
         <span contenteditable="true" class="editable">Something you said that stayed with me</span>
       </h3>
       <p contenteditable="true" class="editable" style="font-style:italic;font-size:.92rem;">
-        "Write a quote, something they said, or a line that captures how you feel about them."
+        "The best love is the kind that awakens the soul and makes us reach for more, that plants a fire in our hearts and brings peace to our minds." — Nicholas Sparks, <em>The Notebook</em>
+      </p>
+      <p contenteditable="true" class="editable" style="font-size:.85rem;margin-top:.6rem;">
+        The day you said you would die without me😜 — okay, I'm joking! What I actually keep thinking about is something you told me when you were in India last time. You said you never expected to love someone this deeply, and that you love me more than you ever imagined you could love anyone in your whole life. I don't know if you realize how much those words meant to me, but they made me feel so incredibly loved and special. It's one of those moments that I'll always carry with me.
       </p>
     </div>
 
@@ -2199,13 +2127,9 @@ And looking back now, I'm soooooooo grateful that I did. ❤️
         <span contenteditable="true" class="editable">A moment worth a thousand words</span>
       </h3>
       <p contenteditable="true" class="editable" style="font-size:.85rem;">
-        Upload a photo and describe what was happening in it.
+        A photo and what was happening in it.
       </p>
-      <label class="mem-upload">
-        <input type="file" accept="image/*" class="mem-file-inp">
-        <span>🖼️ Upload photo</span>
-      </label>
-      <img class="mem-img-preview" alt="">
+      <img class="mem-img-preview" src="memory_photo.jpg" alt="A moment worth a thousand words">
     </div>
 
     <div class="mem-card" style="transition-delay: 0.4s;">
@@ -2214,12 +2138,10 @@ And looking back now, I'm soooooooo grateful that I did. ❤️
         <span contenteditable="true" class="editable">A little message for you</span>
       </h3>
       <p contenteditable="true" class="editable" style="font-size:.85rem;">
-        Upload an audio message or voice note — something to hear in your voice.
+        A voice message — something to hear in my voice.
       </p>
       <div class="audio-bar">
-        <label for="mem-audio-inp">🎤 Upload audio</label>
-        <input type="file" id="mem-audio-inp" accept="audio/*">
-        <audio id="mem-audio-player" controls="" style="display:none;"></audio>
+        <audio id="mem-audio-player" controls="" src="my_voice_recording.mp3"></audio>
       </div>
     </div>
 
@@ -2267,15 +2189,6 @@ And looking back now, I'm soooooooo grateful that I did. ❤️
     <button class="btn-primary" id="open-letter-btn">
       💌 &nbsp; Read My Letter
     </button>
-  </div>
-
-  <div class="letter-audio-wrap" id="letter-audio-wrap">
-    <p class="letter-audio-label">🎵 A song for you — upload to play</p>
-    <div class="audio-bar">
-      <label for="letter-audio-inp">🎵 Our song</label>
-      <input type="file" id="letter-audio-inp" accept="audio/*">
-      <audio id="letter-audio-player" controls="" style="display:none;border-radius:8px;max-width:280px;"></audio>
-    </div>
   </div>
 
   <div class="letter-envelope">
@@ -2639,39 +2552,10 @@ window.addEventListener('resize', fixTimeline);
 
 
 /* ================================================================
-   GALLERY PHOTO UPLOAD
+   GALLERY PHOTOS (static — served from the same folder as index.html)
 ================================================================ */
-const slots   = {};
-const galInput = document.getElementById('gallery-file-input');
-let lbImages   = [];
-let lbIdx      = 0;
-
-function setSlotImage(idx, dataURL) {
-  slots[idx] = dataURL;
-  const slot = document.querySelector(`.ph-slot[data-index="${idx}"]`);
-  if (!slot) return;
-  let img = slot.querySelector('img');
-  if (!img) {
-    img = document.createElement('img');
-    slot.insertBefore(img, slot.querySelector('.ph-remove'));
-  }
-  img.src = dataURL;
-  img.alt = 'Photo ' + (idx + 1);
-  const ph = slot.querySelector('.ph-empty');
-  if (ph) ph.style.display = 'none';
-  buildLbArray();
-}
-
-function removeSlotImage(idx) {
-  delete slots[idx];
-  const slot = document.querySelector(`.ph-slot[data-index="${idx}"]`);
-  if (!slot) return;
-  const img = slot.querySelector('img');
-  if (img) img.remove();
-  const ph = slot.querySelector('.ph-empty');
-  if (ph) ph.style.display = '';
-  buildLbArray();
-}
+let lbImages = [];
+let lbIdx    = 0;
 
 function buildLbArray() {
   lbImages = [];
@@ -2680,49 +2564,11 @@ function buildLbArray() {
     if (img) lbImages.push(img.src);
   });
 }
-
-galInput.addEventListener('change', e => {
-  const files = Array.from(e.target.files);
-  let nextSlot = 0;
-  files.forEach(file => {
-    while (nextSlot < 10 && slots[nextSlot]) nextSlot++;
-    if (nextSlot > 9) return;
-    const reader = new FileReader();
-    const si = nextSlot++;
-    reader.onload = ev => setSlotImage(si, ev.target.result);
-    reader.readAsDataURL(file);
-  });
-  e.target.value = '';
-});
+buildLbArray();
 
 document.getElementById('photo-grid').addEventListener('click', e => {
-  const phEl  = e.target.closest('.ph-empty');
-  const remEl = e.target.closest('.ph-remove');
-  const slot  = e.target.closest('.ph-slot');
+  const slot = e.target.closest('.ph-slot');
   if (!slot) return;
-  const idx = parseInt(slot.dataset.index);
-
-  if (remEl) {
-    e.stopPropagation();
-    removeSlotImage(idx);
-    return;
-  }
-
-  if (phEl) {
-    const inp   = document.createElement('input');
-    inp.type    = 'file';
-    inp.accept  = 'image/*';
-    inp.onchange = ev => {
-      const file = ev.target.files && ev.target.files[0];
-      if (!file) return;
-      const fr = new FileReader();
-      fr.onload = ev2 => setSlotImage(idx, ev2.target.result);
-      fr.readAsDataURL(file);
-    };
-    inp.click();
-    return;
-  }
-
   const img = slot.querySelector('img');
   if (!img) return;
   buildLbArray();
@@ -2804,30 +2650,6 @@ reasonsData.forEach((text, i) => {
 observe('.r-card', 0, .08);
 
 
-/* --- MEMORY CARD UPLOADS --- */
-document.querySelectorAll('.mem-file-inp').forEach(inp => {
-  inp.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const card    = inp.closest('.mem-card');
-    const preview = card.querySelector('.mem-img-preview');
-    const fr      = new FileReader();
-    fr.onload = ev => { preview.src = ev.target.result; preview.style.display = 'block'; };
-    fr.readAsDataURL(file);
-    inp.closest('.mem-upload').querySelector('span').textContent = '✓ ' + file.name;
-  });
-});
-
-document.getElementById('mem-audio-inp').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const player = document.getElementById('mem-audio-player');
-  player.src          = URL.createObjectURL(file);
-  player.style.display = 'block';
-  e.target.previousElementSibling.textContent = '🎵 ' + file.name;
-});
-
-
 /* --- BUCKET LIST --- */
 const bucketItems = [
   { ico: '✈️', label: 'Travel somewhere new together' },
@@ -2874,12 +2696,6 @@ function toggleLetter() {
   letterPaper.classList.toggle('open');
   openLetterBtn.textContent = isOpen ? '💌 Read My Letter' : '✖ Close Letter';
   envelopeOuter.querySelector('.envelope-label').textContent = isOpen ? 'Click to open' : 'Click to close';
-  const aw = document.getElementById('letter-audio-wrap');
-  if (!isOpen) {
-    aw.classList.add('show');
-  } else {
-    aw.classList.remove('show');
-  }
 }
 
 openLetterBtn.addEventListener('click', toggleLetter);
@@ -3064,7 +2880,7 @@ surpriseBtn.addEventListener('click', () => {
    — plays automatically as soon as the page opens (EDIT: set the
      <source src="..."> on #bg-audio near the top of <body> to enable it)
    — automatically ducks (pauses) whenever any other audio on the page
-     starts playing (memory voice note, "our song" upload, etc.) and
+     starts playing (memory voice note, etc.) and
      resumes on its own once that other audio stops or finishes
 ================================================================ */
 (function () {
@@ -3104,7 +2920,7 @@ surpriseBtn.addEventListener('click', () => {
   });
 
   /* duck the background music for ANY other audio element on the page,
-     including ones added later (memory voice note, letter song upload) */
+     including ones added later (memory voice note) */
   document.addEventListener('play', e => {
     const el = e.target;
     if (!(el instanceof HTMLAudioElement) || el === bgAudio) return;
@@ -3120,6 +2936,11 @@ surpriseBtn.addEventListener('click', () => {
   }
   document.addEventListener('pause', releaseDuck, true);
   document.addEventListener('ended', releaseDuck, true);
+
+  window.startBgMusic = function () {
+    userPaused = false;
+    tryPlay();
+  };
 
   function init() {
     if (!hasSrc()) return;
@@ -3733,24 +3554,12 @@ document.getElementById('cut-cake-btn').addEventListener('click', () => {
       skipHint.style.opacity = '.55';
     });
 
-    after(6300, finish);
+    after(8500, finish);
   }
 
   window.startSpiderSurprise = startSpiderSurprise;
 })();
 
-
-/* ================================================================
-   LETTER AUDIO UPLOAD
-================================================================ */
-document.getElementById('letter-audio-inp').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const player = document.getElementById('letter-audio-player');
-  player.src = URL.createObjectURL(file);
-  player.style.display = 'block';
-  player.play().catch(() => {});
-});
 
 </script>
 
