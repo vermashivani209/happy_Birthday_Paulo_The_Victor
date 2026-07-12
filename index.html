@@ -2584,11 +2584,25 @@ const lbImg = document.getElementById('lb-img');
 function openLb() {
   if (lbImages.length === 0) return;
   lbImg.src = lbImages[lbIdx] || '';
+  const showArrows = lbImages.length > 1;
+  document.getElementById('lb-prev').style.display = showArrows ? '' : 'none';
+  document.getElementById('lb-next').style.display = showArrows ? '' : 'none';
   lb.classList.add('on');
 }
 function closeLb() { lb.classList.remove('on'); lbImg.src = ''; }
 function prevLb()  { lbIdx = (lbIdx - 1 + lbImages.length) % lbImages.length; lbImg.src = lbImages[lbIdx]; }
 function nextLb()  { lbIdx = (lbIdx + 1) % lbImages.length; lbImg.src = lbImages[lbIdx]; }
+
+/* Make the "Little Memories" photos (screenshot + memory photo) open
+   full-screen in the same lightbox when clicked. */
+document.querySelectorAll('.mem-img-preview').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', () => {
+    lbImages = [img.src];
+    lbIdx = 0;
+    openLb();
+  });
+});
 
 document.getElementById('lb-close').addEventListener('click', closeLb);
 document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); prevLb(); });
@@ -3077,55 +3091,80 @@ const quizData = [
     q: 'Tea or coffee? ☕ (All answers are valid 🥺)',
     type: 'text',
     herAnswer: 'Cum 😂',
-    matchKey: ''
+    alwaysCorrect: true
   },
   {
     q: "What's one thing that instantly makes me smile? 😊",
     type: 'text',
     herAnswer: 'Video games (I hate you and your games :(',
-    matchKey: 'video games'
+    matchKeys: ['video games', 'videogames', 'video game']
   },
   {
     q: 'If we were zombies, who would survive longer? 🧟',
     type: 'text',
     herAnswer: 'Paulinho (I let you win, it\'s your birthday 🎂)',
-    matchKey: 'paulinho'
+    matchKeys: ['paulinho', 'paulo'],
+    selfRef: true
   },
   {
     q: 'Who fell first? 💘',
     type: 'text',
     herAnswer: 'Paulinho (you were dying to be with me :p)',
-    matchKey: 'paulinho'
+    matchKeys: ['paulinho', 'paulo'],
+    selfRef: true
   },
   {
-    q: "What's one name she gave you first?",
+    q: "What's one name I gave you first? (hint: it's a Hindi word) 🇮🇳",
     type: 'text',
     herAnswer: 'Paulo The Victor',
-    matchKey: 'paulo the victor'
+    matchKeys: ['paulo the victor', 'paulo victor']
   },
   {
     q: "What's the first thing I want to do when we finally meet? 🤭",
     type: 'text',
     herAnswer: 'Hardcore Sex (you creepy boy 😏)',
-    matchKey: 'hardcore sex'
+    matchKeys: ['hardcore sex', 'sex']
   }
 ];
 
 /* helpers */
-const SELF_REFS = ['i', 'me', 'myself', 'paulo', 'paulinho', 'eu', 'mim', 'me myself', 'i myself'];
+// Words that count as "referring to himself" when the expected answer is his name/nickname.
+const SELF_REFS = ['i', 'me', 'myself', 'eu', 'mim'];
+
+// Strips emoji, punctuation, casing and extra spacing so answers are compared
+// on their actual words only — "CUM 😂", "cum!", and "Cum" are all the same,
+// and "Paulinho 🎂" written in the code matches "paulo" typed by him.
+function normalizeText(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .toLowerCase()
+    .replace(/[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{200D}]/gu, '')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 function isMatch(q, ans) {
   if (q.type === 'mcq') return q.herAnswer === ans;
-  const key     = (q.matchKey || q.herAnswer).toLowerCase().trim();
-  const ansNorm = typeof ans === 'string' ? ans.toLowerCase().trim() : '';
+
+  // Questions like "Tea or coffee?" where literally anything he types counts.
+  if (q.alwaysCorrect) return typeof ans === 'string' && ans.trim().length > 0;
+
+  const ansNorm = normalizeText(ans);
   if (!ansNorm) return false;
-  // Direct contains match
-  if (ansNorm.includes(key)) return true;
-  // Self-reference match: if correct answer is "paulinho/paulo", also accept
-  // first-person terms like "I", "Me", "Myself", "Paulo"
-  if (['paulinho', 'paulo'].includes(key)) {
-    return SELF_REFS.some(ref => ansNorm === ref || ansNorm.startsWith(ref + ' ') || ansNorm.endsWith(' ' + ref));
-  }
+
+  // Support one or several acceptable phrasings (nicknames, synonyms, etc.),
+  // each compared case-insensitively and with emoji/punctuation ignored.
+  const rawKeys = q.matchKeys && q.matchKeys.length ? q.matchKeys : [q.matchKey || q.herAnswer];
+  const keys = rawKeys.map(normalizeText).filter(Boolean);
+
+  const matchesKey = keys.some(key => ansNorm === key || ansNorm.includes(key) || key.includes(ansNorm));
+  if (matchesKey) return true;
+
+  // If the expected answer is "him" (his own name/nickname), also accept
+  // first-person words like "I", "me", "myself".
+  if (q.selfRef && SELF_REFS.includes(ansNorm)) return true;
+
   return false;
 }
 
